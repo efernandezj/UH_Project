@@ -1,77 +1,79 @@
-<!-- START OF CONFIGURATION -->
-<div class="card mt-2 mb-4">
-  <div class="card-header">
-    <i class="fas fa-clock"></i>
-    Schedule Details
-  </div>
-
-  <div class="card-body">
-
-    <div class="row mt-2">
-      <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-          <label>Schedule Name</label>
-          <input type="text" class="form-control" value="" placeholder="Type a Schedule Name">
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6">
-        <div class="form-group">
-          <label for="scheduleDespcription">Schedule Description</label>
-          <textarea class="form-control" id="scheduleDespcription" rows="3"
-            placeholder="Type a Schedule Description. (Max: 300 chars)"></textarea>
-        </div>
-      </div>
+<form [formGroup]="frmSchedule">
+  <!-- START OF CONFIGURATION -->
+  <div class="card mt-2 mb-4">
+    <div class="card-header">
+      <i class="fas fa-clock"></i>
+      Schedule Details
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col" style="width: 5%"></th>
-          <th scope="col" style="width: 10%">Day</th>
-          <th scope="col" style="width: 15%">Start Time</th>
-          <th scope="col" style="width: 15%">End Time</th>
-          <th scope="col" style="width: 10%">Working Day</th>
-          <th scope="col">Day Schedule Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let day of days">
-          <td></td>
-          <td>{{day.name}}</td>
-          <td>
-            <timepicker></timepicker>
-          </td>
-          <td>
-            <timepicker></timepicker>
-          </td>
-          <td>
-            <div style="margin-left: 42px;">
-              <mat-checkbox color="primary"></mat-checkbox>
-            </div>
-          </td>
-          <td>
-            <div class="form-group mr-4 mb-0 input-group-lg">
-              <input type="text" class="form-control" disabled value="{{day.name}} start at HH:HH and end HH:HH">
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+    <div class="card-body">
+
+      <div class="row mt-2">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label>Schedule Name</label>
+            <input type="text" class="form-control" value="" placeholder="Type a Schedule Name">
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="scheduleDespcription">Schedule Description</label>
+            <textarea class="form-control" id="scheduleDespcription" rows="3"
+              placeholder="Type a Schedule Description. (Max: 300 chars)"></textarea>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 5%"></th>
+            <th scope="col" style="width: 10%">Day</th>
+            <th scope="col" style="width: 15%">Start Time</th>
+            <th scope="col" style="width: 15%">End Time</th>
+            <th scope="col" style="width: 10%">Working Day</th>
+            <th scope="col">Day Schedule Description</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="days">
+          <tr *ngFor="let control of this.getControls()">
+            <td></td>
+            <td>{{ control.get('dayName').value }}</td>
+            <td>
+              <timepicker></timepicker>
+            </td>
+            <td>
+              <timepicker></timepicker>
+            </td>
+            <td>
+              <div style="margin-left: 42px;">
+                <mat-checkbox color="primary" [checked]="control.get('isWorkingday').value"></mat-checkbox>
+              </div>
+            </td>
+            <td>
+              <div class="form-group mr-4 mb-0 input-group-lg">
+                <input type="text" class="form-control" disabled value=" start at HH:HH and end HH:HH">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
 
-  <div class="card-footer">
-    <button class="btn btn-primary">
-      <i *ngIf="!isSaving" class="fa fa-save"></i>
-      <i *ngIf="isSaving" class="fas fa-sync fa-spin"></i>
-      Save
-    </button>
-    <button type="button" class="btn btn-danger ml-2">
-      <i class="fa fa-times"></i>
-      Cancel
-    </button>
-    <button type="button" class="btn btn-link float-right">
-      <i class="fa fa-trash"></i>
-    </button>
+    <div class="card-footer">
+      <button class="btn btn-primary" type="submit">
+        <i *ngIf="!isSaving" class="fa fa-save"></i>
+        <i *ngIf="isSaving" class="fas fa-sync fa-spin"></i>
+        Save
+      </button>
+      <button type="button" class="btn btn-danger ml-2">
+        <i class="fa fa-times"></i>
+        Cancel
+      </button>
+      <button type="button" class="btn btn-link float-right">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
   </div>
-</div>
-<!-- END OF Schedules CONFIGURATION -->
+  <!-- END OF Schedules CONFIGURATION -->
+</form>

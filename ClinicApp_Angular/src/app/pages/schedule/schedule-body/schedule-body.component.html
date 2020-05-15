@@ -1,37 +1,12 @@
-<div class="card mt-2">
-    <div class="card-header">
-        <i class="fas fa-filter"></i> Search
-    </div>
 
-    <div class="card-body">
-        <div class="col-sm-12 col-md-12">
-            <div class="form-group">
-                <label for="shedule">Schedule Name</label>
-                <select id="shedule" class="form-control custom-select">
-                    <option value="" *ngIf="!isEmptySchedules">-- Choose one --</option>
-                    <option value="" *ngIf="isEmptySchedules">-- There is not Schedules created --</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-footer">
-        <button class="btn btn-primary" type="submit">
-            <i class="fa fa-plus"></i>
-            <span class="ml-2">Create Schedule</span>
-        </button>
-    </div>
-</div>
-
-
-<!-- START OF  -->
+<!-- CRUD SECTION -->
 <ng-container>
     <app-schedule-crud></app-schedule-crud>
 </ng-container>
 
 
-<!-- START OF Schedules Search Results -->
-<div class="card mt-2 mb-4" style="display: none;">
+<!-- EXISTING ELEMENTS -->
+<div class="card mt-2 mb-4">
     <div class="card-header">
         <i class="fas fa-clock"></i>
         Schedule List

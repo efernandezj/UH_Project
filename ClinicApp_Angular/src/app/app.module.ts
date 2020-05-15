@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { DataTablesModule } from 'angular-datatables';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 // Angular material
@@ -53,7 +53,9 @@ import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-c
     MatButtonModule,
     MatCheckboxModule,
     DataTablesModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    FormsModule, 
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

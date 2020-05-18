@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 
 
@@ -11,47 +11,42 @@ import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/for
 })
 export class ScheduleCrudComponent implements OnInit {
   public isSaving: boolean;
-  private _days: any;
   public frmSchedule: FormGroup;
-  
+
 
   constructor() {
-    const DAYS = [{ name: 'Monday' },
-                  { name: 'Tuesday' },
-                  { name: 'Wednesday' },
-                  { name: 'Thursday' },
-                  { name: 'Friday' },
-                  { name: 'Saturday' },
-                  { name: 'Sunday' }];
     this.isSaving = false;
-    this._days = DAYS;
 
     this.frmSchedule = new FormGroup({
       scheduleName: new FormControl(''),
+      scheduleDescrip: new FormControl(''),
       days: new FormArray([])
     });
 
-    
+    this.createForm();
+  }
+
+  get days() {
+    return this.frmSchedule.get('days') as FormArray;
   }
 
   ngOnInit() {
-    this._days.forEach(e => {
-      const dayGrp = new FormGroup({
-        dayName: new FormControl(e.name),
-        startTime: new FormControl(),
-        endTime: new FormControl(),
-        dayDescrip: new FormControl('DayOff'),
-        isWorkingday: new FormControl(true)
-      });
-      
-      (this.frmSchedule.get('days') as FormArray).push(dayGrp);
-    });
 
-    console.log(this.getControls());
   }
 
-  public getControls(): AbstractControl[] {
-    return (this.frmSchedule.get('days') as FormArray).controls;
+  private createForm(): void {
+    ['Monday', 'Tuesday', 'Wednesday ', 'Thursday', 'Friday', 'Saturday', 'Sunday'].forEach(day => {
+      this.days.push(
+        new FormGroup({
+          dayName: new FormControl(day),
+          startTime: new FormControl(new Date()),
+          endTime: new FormControl(new Date()),
+          dayDescrip: new FormControl('DayOff'),
+          isWorkingday: new FormControl(true)
+        })
+      )
+    })
   }
+
 
 }

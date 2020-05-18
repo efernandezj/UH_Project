@@ -12,14 +12,15 @@
         <div class="col-sm-12 col-md-6">
           <div class="form-group">
             <label>Schedule Name</label>
-            <input type="text" class="form-control" value="" placeholder="Type a Schedule Name">
+            <input type="text" class="form-control" value="" placeholder="Type a Schedule Name" formContolName="scheduleName">
           </div>
         </div>
         <div class="col-sm-12 col-md-6">
           <div class="form-group">
             <label for="scheduleDespcription">Schedule Description</label>
             <textarea class="form-control" id="scheduleDespcription" rows="3"
-              placeholder="Type a Schedule Description. (Max: 300 chars)"></textarea>
+              placeholder="Type a Schedule Description. (Max: 300 chars)" formControlName="scheduleDescrip">
+            </textarea>
           </div>
         </div>
       </div>
@@ -34,10 +35,11 @@
             <th scope="col">Day Schedule Description</th>
           </tr>
         </thead>
+
         <tbody formArrayName="days">
-          <tr *ngFor="let control of this.getControls()">
+          <tr *ngFor="let day of this.days.controls; let i = index" [formGroupName]="i">
             <td></td>
-            <td>{{ control.get('dayName').value }}</td>
+            <td>{{ day.get('dayName').value }}</td>
             <td>
               <timepicker></timepicker>
             </td>
@@ -46,12 +48,12 @@
             </td>
             <td>
               <div style="margin-left: 42px;">
-                <mat-checkbox color="primary" [checked]="control.get('isWorkingday').value"></mat-checkbox>
+                <mat-checkbox color="primary" [checked]="day.get('isWorkingday').value"></mat-checkbox>
               </div>
             </td>
             <td>
               <div class="form-group mr-4 mb-0 input-group-lg">
-                <input type="text" class="form-control" disabled value=" start at HH:HH and end HH:HH">
+                <input type="text" class="form-control"  [value]="day.get('dayDescrip').value" readonly>
               </div>
             </td>
           </tr>

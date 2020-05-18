@@ -41,19 +41,19 @@
             <td></td>
             <td>{{ day.get('dayName').value }}</td>
             <td>
-              <timepicker></timepicker>
+              <timepicker formControlName="startTime"></timepicker>
             </td>
             <td>
-              <timepicker></timepicker>
+              <timepicker formControlName="endTime"></timepicker>
             </td>
             <td>
               <div style="margin-left: 42px;">
-                <mat-checkbox color="primary" [checked]="day.get('isWorkingday').value"></mat-checkbox>
+                <mat-checkbox color="primary" formControlName="isWorkingday" #isWorkingday></mat-checkbox>
               </div>
             </td>
             <td>
               <div class="form-group mr-4 mb-0 input-group-lg">
-                <input type="text" class="form-control"  [value]="day.get('dayDescrip').value" readonly>
+                <input type="text" class="form-control"  formControlName="dayDescrip" [readonly]="isWorkingday.checked">
               </div>
             </td>
           </tr>

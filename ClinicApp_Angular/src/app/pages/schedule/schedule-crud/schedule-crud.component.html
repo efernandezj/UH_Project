@@ -1,4 +1,4 @@
-<form [formGroup]="frmSchedule">
+<form [formGroup]="frmSchedule" (ngSubmit)="formtSubmit()">
   <!-- START OF CONFIGURATION -->
   <div class="card mt-2 mb-4">
     <div class="card-header">
@@ -11,8 +11,9 @@
       <div class="row mt-2">
         <div class="col-sm-12 col-md-6">
           <div class="form-group">
-            <label>Schedule Name</label>
-            <input type="text" class="form-control" value="" placeholder="Type a Schedule Name" formContolName="scheduleName">
+            <label for="scheduleName">Schedule Name</label>
+            <input type="text" class="form-control" id="scheduleName" placeholder="Type a Schedule Name"
+              formControlName="scheduleName">
           </div>
         </div>
         <div class="col-sm-12 col-md-6">
@@ -41,21 +42,18 @@
             <td></td>
             <td>{{ day.get('dayName').value }}</td>
             <td>
-              <timepicker formControlName="startTime"></timepicker>
+              <timepicker formControlName="startTime" [showSpinners]="false"></timepicker>
             </td>
             <td>
-              <timepicker formControlName="endTime"></timepicker>
+              <timepicker formControlName="endTime" [showSpinners]="false"></timepicker>
             </td>
             <td>
               <div style="margin-left: 42px;">
-                <mat-checkbox color="primary" formControlName="isWorkingday" #isWorkingday></mat-checkbox>
+                <mat-checkbox color="primary" formControlName="isWorkingday" #isWorkingday
+                  (change)="changeDescription(i)"></mat-checkbox>
               </div>
             </td>
-            <td>
-              <div class="form-group mr-4 mb-0 input-group-lg">
-                <input type="text" class="form-control"  formControlName="dayDescrip" [readonly]="isWorkingday.checked">
-              </div>
-            </td>
+            <td>{{ day.get('dayDescrip').value }}</td>
           </tr>
         </tbody>
       </table>
@@ -63,12 +61,12 @@
 
 
     <div class="card-footer">
-      <button class="btn btn-primary" type="submit">
+      <button class="btn btn-primary" type="submit" [disabled]="!frmSchedule.valid">
         <i *ngIf="!isSaving" class="fa fa-save"></i>
         <i *ngIf="isSaving" class="fas fa-sync fa-spin"></i>
         Save
       </button>
-      <button type="button" class="btn btn-danger ml-2">
+      <button type="button" class="btn btn-danger ml-2" (click)="cleanScheduleForm()">
         <i class="fa fa-times"></i>
         Cancel
       </button>

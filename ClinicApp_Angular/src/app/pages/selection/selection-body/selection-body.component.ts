@@ -7,7 +7,7 @@ import { IEmployees } from '../../interfaces/selection.interface';
   templateUrl: './selection-body.component.html'
 })
 export class SelectionBodyComponent implements OnInit {
-  @ViewChild(DataTableDirective, { static: false })
+  @ViewChild(DataTableDirective)
   public isFecthing: boolean;
   public dtOptions: DataTables.Settings;
   public employees: IEmployees[];

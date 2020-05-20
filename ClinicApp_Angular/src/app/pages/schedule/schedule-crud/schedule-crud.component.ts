@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormGroup, FormArray, FormControl, AbstractControl, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { Schedule} from '../models/schedule.model';
 
 
 @Component({
@@ -51,9 +52,13 @@ export class ScheduleCrudComponent implements OnInit {
   public changeDescription(idx: number): void {
     if(this.days.at(idx).get('isWorkingday').value) {
       this.days.at(idx).get('dayDescrip').setValue('This is a Business day.');
-      // this.days.at(idx).get('startTime').setValidators(Validators.required);
+      this.days.at(idx).get('startTime').setValue(new Date("January 31 1980 06:30"))
+      this.days.at(idx).get('endTime').setValue(new Date("January 31 1980 15:30"))
     } else {
       this.days.at(idx).get('dayDescrip').setValue('DayOff');
+      this.days.at(idx).get('startTime').setValue(null)
+      this.days.at(idx).get('endTime').setValue(null)
+      
     }
   }
 
@@ -70,7 +75,15 @@ export class ScheduleCrudComponent implements OnInit {
   }
 
   public formtSubmit(): void {
-    console.log(this.frmSchedule.value);
+    // console.log(this.frmSchedule.value);
+    this.isSaving = true;
+    
+    if(this.days.controls.filter( e => e.get('isWorkingday').value === true).length) {
+      // this.swal.showAlert('Attention', 'You must check at least one day as working day.', 'error');
+      return;
+    }
+    
+    const data: Schedule = this.frmSchedule.value;
   }
 
 

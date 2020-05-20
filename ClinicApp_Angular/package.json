@@ -24,7 +24,7 @@
     "@ng-select/ng-select": "^2.20.2",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
-    "@sweetalert2/ngx-sweetalert2": "^5.1.0",
+    "@sweetalert2/ngx-sweetalert2": "^8.1.0",
     "angular-datatables": "^8.0.0",
     "bootstrap": "^4.3.1",
     "bootstrap-switch": "^3.3.4",
@@ -42,7 +42,7 @@
     "ngx-socket-io": "^2.1.1",
     "ngx-toastr": "^10.0.4",
     "rxjs": "^6.5.4",
-    "sweetalert2": "^8.13.0",
+    "sweetalert2": "^9.10.10",
     "tslib": "^1.9.0",
     "underscore": "^1.9.1",
     "zone.js": "~0.9.1"

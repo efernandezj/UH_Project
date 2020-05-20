@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// NGX-BOOTSTRAP
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 // Angular material
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,6 +18,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
+// Classes
+import { SwalClass } from './classes/swal.class';
 
 
 // Components
@@ -26,6 +32,7 @@ import { SelectionBodyComponent }   from './pages/selection/selection-body/selec
 import { ScheduleComponent }        from './pages/schedule/schedule.component';
 import { ScheduleBodyComponent } from './pages/schedule/schedule-body/schedule-body.component';
 import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-crud.component';
+
 
 
 
@@ -54,10 +61,12 @@ import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-c
     MatCheckboxModule,
     DataTablesModule,
     TimepickerModule.forRoot(),
+    AlertModule.forRoot(),
+    SweetAlert2Module.forRoot(),
     FormsModule, 
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [SwalClass],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

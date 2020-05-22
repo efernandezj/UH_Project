@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { SwalClass} from '../../../classes/swal.class';
 import { Schedule} from '../models/schedule.model';
+import { ScheduleService } from '../services/schedule.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -15,7 +18,7 @@ export class ScheduleCrudComponent implements OnInit {
   public frmSchedule: FormGroup;
 
 
-  constructor() {
+  constructor(private swal: SwalClass, private srvSchedule: ScheduleService) {
     this.isSaving = false;
 
     this.frmSchedule = new FormGroup({
@@ -75,15 +78,28 @@ export class ScheduleCrudComponent implements OnInit {
   }
 
   public formtSubmit(): void {
-    // console.log(this.frmSchedule.value);
     this.isSaving = true;
     
-    if(this.days.controls.filter( e => e.get('isWorkingday').value === true).length) {
-      // this.swal.showAlert('Attention', 'You must check at least one day as working day.', 'error');
+    if(this.days.controls.filter( e => e.get('isWorkingday').value === true).length == 0) {
+      this.swal.showAlert('Attention', 'You must check at least one day as working day.', 'error');
+      this.isSaving = false;
       return;
     }
     
     const data: Schedule = this.frmSchedule.value;
+
+    this.srvSchedule.postSchedule(data).subscribe((result: any) => {
+      if(result.IsCorrect) {
+        // TODO
+        this.swal.showAlert('Great',result.Message, 'success');
+      } else {
+        this.swal.showAlert('Attention', result.Message, 'error');
+      }
+      this.isSaving = false;
+    }, ((err: HttpErrorResponse) => {
+      this.swal.showAlert('Attention', err.error.Message, 'error');
+      this.isSaving = false;
+    }));    
   }
 
 

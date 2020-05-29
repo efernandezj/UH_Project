@@ -46,7 +46,6 @@ export class ScheduleService {
     return this.http.delete(`${environment.apiPath}/api/schedule/${idx}`,{headers});
   }
 
-
   public postSchedule(data: any): Observable<Object> {
     return this._postQuery(data, 'schedule');
   }

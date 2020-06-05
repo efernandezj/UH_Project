@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClinicAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Building">
+    <Key>
+      <PropertyRef Name="buildingID" />
+    </Key>
+    <Property Name="buildingID" Type="int" Nullable="false" />
+    <Property Name="buildingName" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Clinical">
+    <Key>
+      <PropertyRef Name="clinicalID" />
+    </Key>
+    <Property Name="clinicalID" Type="int" Nullable="false" />
+    <Property Name="clinicalName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="clinicalEmail" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="clinicalCollegateNumber" Type="int" Nullable="false" />
+    <Property Name="jobID" Type="int" Nullable="false" />
+    <Property Name="buildingID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Job">
+    <Key>
+      <PropertyRef Name="jobID" />
+    </Key>
+    <Property Name="jobID" Type="int" Nullable="false" />
+    <Property Name="jobName" Type="varchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="scheduleID" />
+    </Key>
+    <Property Name="scheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="scheduleName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="scheduleNameDescription" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="isActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="ScheduleDetail">
+    <Key>
+      <PropertyRef Name="scheduleDetailID" />
+    </Key>
+    <Property Name="scheduleDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="scheduleID" Type="int" Nullable="false" />
+    <Property Name="weekdayName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="startTime" Type="datetime" />
+    <Property Name="endTime" Type="datetime" />
+    <Property Name="dayNumber" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="fk_ScheduleDetail_Schedule">
+    <End Role="Schedule" Type="Self.Schedule" Multiplicity="1" />
+    <End Role="ScheduleDetail" Type="Self.ScheduleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Schedule">
+        <PropertyRef Name="scheduleID" />
+      </Principal>
+      <Dependent Role="ScheduleDetail">
+        <PropertyRef Name="scheduleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkClinical_Building">
+    <End Role="Building" Type="Self.Building" Multiplicity="1" />
+    <End Role="Clinical" Type="Self.Clinical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Building">
+        <PropertyRef Name="buildingID" />
+      </Principal>
+      <Dependent Role="Clinical">
+        <PropertyRef Name="buildingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkClinical_Job">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="Clinical" Type="Self.Clinical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="jobID" />
+      </Principal>
+      <Dependent Role="Clinical">
+        <PropertyRef Name="jobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ClinicAppModelStoreContainer">
+    <EntitySet Name="Building" EntityType="Self.Building" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clinical" EntityType="Self.Clinical" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ScheduleDetail" EntityType="Self.ScheduleDetail" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_ScheduleDetail_Schedule" Association="Self.fk_ScheduleDetail_Schedule">
+      <End Role="Schedule" EntitySet="Schedule" />
+      <End Role="ScheduleDetail" EntitySet="ScheduleDetail" />
+    </AssociationSet>
+    <AssociationSet Name="fkClinical_Building" Association="Self.fkClinical_Building">
+      <End Role="Building" EntitySet="Building" />
+      <End Role="Clinical" EntitySet="Clinical" />
+    </AssociationSet>
+    <AssociationSet Name="fkClinical_Job" Association="Self.fkClinical_Job">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="Clinical" EntitySet="Clinical" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

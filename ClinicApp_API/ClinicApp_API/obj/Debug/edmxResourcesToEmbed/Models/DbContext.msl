@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ClinicAppModelStoreContainer" CdmEntityContainer="ClinicAppEntities">
+    <EntitySetMapping Name="Buildings">
+      <EntityTypeMapping TypeName="ClinicAppModel.Building">
+        <MappingFragment StoreEntitySet="Building">
+          <ScalarProperty Name="buildingID" ColumnName="buildingID" />
+          <ScalarProperty Name="buildingName" ColumnName="buildingName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clinicals">
+      <EntityTypeMapping TypeName="ClinicAppModel.Clinical">
+        <MappingFragment StoreEntitySet="Clinical">
+          <ScalarProperty Name="clinicalID" ColumnName="clinicalID" />
+          <ScalarProperty Name="clinicalName" ColumnName="clinicalName" />
+          <ScalarProperty Name="clinicalEmail" ColumnName="clinicalEmail" />
+          <ScalarProperty Name="clinicalCollegateNumber" ColumnName="clinicalCollegateNumber" />
+          <ScalarProperty Name="jobID" ColumnName="jobID" />
+          <ScalarProperty Name="buildingID" ColumnName="buildingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Jobs">
+      <EntityTypeMapping TypeName="ClinicAppModel.Job">
+        <MappingFragment StoreEntitySet="Job">
+          <ScalarProperty Name="jobID" ColumnName="jobID" />
+          <ScalarProperty Name="jobName" ColumnName="jobName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schedules">
+      <EntityTypeMapping TypeName="ClinicAppModel.Schedule">
+        <MappingFragment StoreEntitySet="Schedule">
+          <ScalarProperty Name="scheduleID" ColumnName="scheduleID" />
+          <ScalarProperty Name="scheduleName" ColumnName="scheduleName" />
+          <ScalarProperty Name="scheduleNameDescription" ColumnName="scheduleNameDescription" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ScheduleDetails">
+      <EntityTypeMapping TypeName="ClinicAppModel.ScheduleDetail">
+        <MappingFragment StoreEntitySet="ScheduleDetail">
+          <ScalarProperty Name="dayNumber" ColumnName="dayNumber" />
+          <ScalarProperty Name="endTime" ColumnName="endTime" />
+          <ScalarProperty Name="startTime" ColumnName="startTime" />
+          <ScalarProperty Name="weekdayName" ColumnName="weekdayName" />
+          <ScalarProperty Name="scheduleID" ColumnName="scheduleID" />
+          <ScalarProperty Name="scheduleDetailID" ColumnName="scheduleDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

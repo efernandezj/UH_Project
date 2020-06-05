@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClinicAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Building">
+    <Key>
+      <PropertyRef Name="buildingID" />
+    </Key>
+    <Property Name="buildingID" Type="Int32" Nullable="false" />
+    <Property Name="buildingName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Clinicals" Relationship="Self.fkClinical_Building" FromRole="Building" ToRole="Clinical" />
+  </EntityType>
+  <EntityType Name="Clinical">
+    <Key>
+      <PropertyRef Name="clinicalID" />
+    </Key>
+    <Property Name="clinicalID" Type="Int32" Nullable="false" />
+    <Property Name="clinicalName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="clinicalEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="clinicalCollegateNumber" Type="Int32" Nullable="false" />
+    <Property Name="jobID" Type="Int32" Nullable="false" />
+    <Property Name="buildingID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Building" Relationship="Self.fkClinical_Building" FromRole="Clinical" ToRole="Building" />
+    <NavigationProperty Name="Job" Relationship="Self.fkClinical_Job" FromRole="Clinical" ToRole="Job" />
+  </EntityType>
+  <EntityType Name="Job">
+    <Key>
+      <PropertyRef Name="jobID" />
+    </Key>
+    <Property Name="jobID" Type="Int32" Nullable="false" />
+    <Property Name="jobName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Clinicals" Relationship="Self.fkClinical_Job" FromRole="Job" ToRole="Clinical" />
+  </EntityType>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="scheduleID" />
+    </Key>
+    <Property Name="scheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="scheduleName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="scheduleNameDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="isActive" Type="Boolean" />
+    <NavigationProperty Name="ScheduleDetails" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="Schedule" ToRole="ScheduleDetail" />
+  </EntityType>
+  <Association Name="fkClinical_Building">
+    <End Role="Building" Type="Self.Building" Multiplicity="1" />
+    <End Role="Clinical" Type="Self.Clinical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Building">
+        <PropertyRef Name="buildingID" />
+      </Principal>
+      <Dependent Role="Clinical">
+        <PropertyRef Name="buildingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkClinical_Job">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="Clinical" Type="Self.Clinical" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="jobID" />
+      </Principal>
+      <Dependent Role="Clinical">
+        <PropertyRef Name="jobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ClinicAppEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Buildings" EntityType="Self.Building" />
+    <EntitySet Name="Clinicals" EntityType="Self.Clinical" />
+    <EntitySet Name="Jobs" EntityType="Self.Job" />
+    <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+    <AssociationSet Name="fkClinical_Building" Association="Self.fkClinical_Building">
+      <End Role="Building" EntitySet="Buildings" />
+      <End Role="Clinical" EntitySet="Clinicals" />
+    </AssociationSet>
+    <AssociationSet Name="fkClinical_Job" Association="Self.fkClinical_Job">
+      <End Role="Job" EntitySet="Jobs" />
+      <End Role="Clinical" EntitySet="Clinicals" />
+    </AssociationSet>
+    <EntitySet Name="ScheduleDetails" EntityType="ClinicAppModel.ScheduleDetail" />
+    <AssociationSet Name="fk_ScheduleDetail_Schedule" Association="ClinicAppModel.fk_ScheduleDetail_Schedule">
+      <End Role="Schedule" EntitySet="Schedules" />
+      <End Role="ScheduleDetail" EntitySet="ScheduleDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ScheduleDetail">
+    <Key>
+      <PropertyRef Name="scheduleDetailID" />
+    </Key>
+    <Property Name="scheduleDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="scheduleID" Type="Int32" Nullable="false" />
+    <Property Name="weekdayName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="startTime" Type="DateTime" Precision="3" />
+    <Property Name="endTime" Type="DateTime" Precision="3" />
+    <Property Name="dayNumber" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Schedule" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="ScheduleDetail" ToRole="Schedule" />
+  </EntityType>
+  <Association Name="fk_ScheduleDetail_Schedule">
+    <End Type="ClinicAppModel.Schedule" Role="Schedule" Multiplicity="1" />
+    <End Type="ClinicAppModel.ScheduleDetail" Role="ScheduleDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Schedule">
+        <PropertyRef Name="scheduleID" />
+      </Principal>
+      <Dependent Role="ScheduleDetail">
+        <PropertyRef Name="scheduleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
@@ -8,17 +8,22 @@ import { ScheduleService } from '../services/schedule.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
+
 @Component({
   selector: 'app-schedule-crud',
   templateUrl: './schedule-crud.component.html',
-  styles: []
+  styles: [],
+  providers: [ScheduleService]
 })
 export class ScheduleCrudComponent implements OnInit {
+  @Output() public saveCompleted: EventEmitter<any>;
   public isSaving: boolean;
   public frmSchedule: FormGroup;
 
 
+
   constructor(private swal: SwalClass, private srvSchedule: ScheduleService) {
+    this.saveCompleted = new EventEmitter();
     this.isSaving = false;
 
     this.frmSchedule = new FormGroup({
@@ -35,7 +40,7 @@ export class ScheduleCrudComponent implements OnInit {
   }
 
   ngOnInit() {
-
+   
   }
 
   private createForm(): void {
@@ -87,11 +92,12 @@ export class ScheduleCrudComponent implements OnInit {
     }
     
     const data: Schedule = this.frmSchedule.value;
-
+        
     this.srvSchedule.postSchedule(data).subscribe((result: any) => {
       if(result.IsCorrect) {
-        // TODO
-        this.swal.showAlert('Great',result.Message, 'success');
+        this.saveCompleted.emit(result.Data as any);
+        console.log(result.Data);
+        this.swal.showAlert('Success',result.Message, 'success');
       } else {
         this.swal.showAlert('Attention', result.Message, 'error');
       }

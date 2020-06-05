@@ -5,6 +5,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // NGX-BOOTSTRAP
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -64,7 +65,8 @@ import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-c
     AlertModule.forRoot(),
     SweetAlert2Module.forRoot(),
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [SwalClass],
   bootstrap: [AppComponent]

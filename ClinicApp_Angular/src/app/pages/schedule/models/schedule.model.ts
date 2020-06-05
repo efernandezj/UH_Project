@@ -1,4 +1,5 @@
 export class Schedule {
+    public key: number;
     public scheduleName: string;
     public scheduleDescrip: string;
     public days: day[]

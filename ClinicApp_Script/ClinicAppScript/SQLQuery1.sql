@@ -33,8 +33,8 @@ CREATE TABLE dbo.ScheduleDetail (
 	scheduleDetailID		INT NOT NULL IDENTITY(1,1),
 	scheduleID				INT NOT NULL,
 	weekdayName				VARCHAR(30) NOT NULL,
-	startTime				VARCHAR(30) NULL,
-	endTime					VARCHAR(30) NULL,
+	startTime				DATETIME NULL,
+	endTime					DATETIME NULL,
 	dayNumber				INT NOT NULL,
 
 	CONSTRAINT pk_ScheduleDetail PRIMARY KEY (scheduleDetailID),

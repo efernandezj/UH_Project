@@ -41,10 +41,14 @@ export class ScheduleService {
 
   private _deleteQuery(idx: number, type: string): Observable<Object> {
     const headers = new HttpHeaders({
-      put_Type: type
+      delete_Type: type
     });
 
     return this.http.delete(`${environment.apiPath}/api/schedule/${idx}`,{headers});
+  }
+
+  public getSchedule(): Observable<object> {
+    return this._getQuery('schedule');
   }
 
   public postSchedule(data: any): Observable<Object> {

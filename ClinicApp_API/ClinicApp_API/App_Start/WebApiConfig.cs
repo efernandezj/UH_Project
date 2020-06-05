@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace ClinicApp_API
 {
@@ -9,6 +10,9 @@ namespace ClinicApp_API
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors();
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
             // Web API configuration and services
 
             // Web API routes

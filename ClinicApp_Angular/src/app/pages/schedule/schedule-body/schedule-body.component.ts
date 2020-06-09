@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ScheduleService } from '../services/schedule.service';
 import { Schedule } from '../models/schedule.model';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-schedule-body',
@@ -8,10 +9,14 @@ import { Schedule } from '../models/schedule.model';
   styleUrls: ['./schedule-body.component.css'],
   providers: [ScheduleService]
 })
-export class ScheduleBodyComponent implements OnInit {
+export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild(DataTableDirective)
+  private dtElement: DataTableDirective;
+  private dtTable: DataTables.Api;
+  public dtOptions: DataTables.Settings;
   public isLoading: boolean;
   public schedules: Schedule[];
-  public dtOptions: DataTables.Settings;
+  
 
   constructor(private srvSchedule: ScheduleService) {
     this.isLoading = false;
@@ -24,7 +29,7 @@ export class ScheduleBodyComponent implements OnInit {
       // info: false,
       ordering: false,
       responsive: true,
-      columnDefs: [{ responsivePriority: 1, targets: 3 }] as any[],
+      // columnDefs: [{ responsivePriority: 1, targets: 3 }] as any[],
       ajax: (dataTablesParameters: any, callback) => {
         callback({
           recordsTotal: this.schedules.length,
@@ -39,7 +44,7 @@ export class ScheduleBodyComponent implements OnInit {
         { id: 3, data: 'endTime' }/*,
         {
           id: 4, data: null, sortable: false, className: 'text-center', render: (data: any, type: any, row: Schedule) => {
-            return `<button type="button" (click)="startPhase(${row.key})" <i class="fas fa-play"></i> </button>`;
+            return `<button type="button" data-target="${row.key}" class="btn btn-link p-0"><i class="fas fa-pencil-alt"></i></button>`;
           }
         }*/
       ]
@@ -57,8 +62,42 @@ export class ScheduleBodyComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    if (this.dtElement) {
+      this.dtElement.dtInstance.then(tbl => {
+        this.dtTable = tbl;
+        this.dtTable.on('draw', () => this._setLinkEvents());
+        this.dtTable.ajax.reload();
+        console.log('In Condition');
+      });
+    }
+    console.log('afterView');
+  }
+
+  ngOnDestroy() {
+    if (this.dtTable) {
+      this.dtTable.destroy(true);
+    }
+  }
+
   public reloadSchedules(schedules: Schedule[]) {
     this.schedules = schedules;
+  }
+
+
+
+
+
+  private _setLinkEvents(): void {
+    console.log('test');
+    const arrLinks = $('#tblResult tbody').find('button');
+    $.each(arrLinks, (key: number, btn: HTMLButtonElement) => {
+      if ($(btn).attr('data-target')) {
+        const key = Number($(btn).attr('data-target'));
+        console.log('btn');
+
+      }
+    });
   }
 
 }

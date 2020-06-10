@@ -4,7 +4,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 timepicker tr { background-color: transparent !important; }
-timepicker th, td {
+timepicker th, timepicker td {
     padding: 0 !important;
     vertical-align: middle !important;
     border: none !important;

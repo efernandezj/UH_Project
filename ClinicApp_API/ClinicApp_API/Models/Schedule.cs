@@ -23,7 +23,7 @@ namespace ClinicApp_API.Models
         public int scheduleID { get; set; }
         public string scheduleName { get; set; }
         public string scheduleNameDescription { get; set; }
-        public Nullable<bool> isActive { get; set; }
+        public bool isActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleDetail> ScheduleDetails { get; set; }

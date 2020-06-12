@@ -1,6 +1,11 @@
-<h2 class="pb-4">Schedule</h2>
+<div class="container-fluid">
+    <h2 class="pb-4">Schedules</h2>
 
-<ng-container>
-    <app-schedule-body></app-schedule-body>
-</ng-container>
+    <div style="margin-top: 50%;" *ngIf="loading">
+        <app-loading></app-loading>
+    </div>
 
+    <ng-container *ngIf="!loading">
+        <app-schedule-body></app-schedule-body>
+    </ng-container>
+</div>

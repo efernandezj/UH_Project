@@ -5,7 +5,7 @@
       <PropertyRef Name="buildingID" />
     </Key>
     <Property Name="buildingID" Type="Int32" Nullable="false" />
-    <Property Name="buildingName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="buildingName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Clinicals" Relationship="Self.fkClinical_Building" FromRole="Building" ToRole="Clinical" />
   </EntityType>
   <EntityType Name="Clinical">
@@ -28,16 +28,6 @@
     <Property Name="jobID" Type="Int32" Nullable="false" />
     <Property Name="jobName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Clinicals" Relationship="Self.fkClinical_Job" FromRole="Job" ToRole="Clinical" />
-  </EntityType>
-  <EntityType Name="Schedule">
-    <Key>
-      <PropertyRef Name="scheduleID" />
-    </Key>
-    <Property Name="scheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="scheduleName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="scheduleNameDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="isActive" Type="Boolean" />
-    <NavigationProperty Name="ScheduleDetails" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="Schedule" ToRole="ScheduleDetail" />
   </EntityType>
   <Association Name="fkClinical_Building">
     <End Role="Building" Type="Self.Building" Multiplicity="1" />
@@ -67,7 +57,6 @@
     <EntitySet Name="Buildings" EntityType="Self.Building" />
     <EntitySet Name="Clinicals" EntityType="Self.Clinical" />
     <EntitySet Name="Jobs" EntityType="Self.Job" />
-    <EntitySet Name="Schedules" EntityType="Self.Schedule" />
     <AssociationSet Name="fkClinical_Building" Association="Self.fkClinical_Building">
       <End Role="Building" EntitySet="Buildings" />
       <End Role="Clinical" EntitySet="Clinicals" />
@@ -76,12 +65,23 @@
       <End Role="Job" EntitySet="Jobs" />
       <End Role="Clinical" EntitySet="Clinicals" />
     </AssociationSet>
+    <EntitySet Name="Schedules" EntityType="ClinicAppModel.Schedule" />
     <EntitySet Name="ScheduleDetails" EntityType="ClinicAppModel.ScheduleDetail" />
     <AssociationSet Name="fk_ScheduleDetail_Schedule" Association="ClinicAppModel.fk_ScheduleDetail_Schedule">
       <End Role="Schedule" EntitySet="Schedules" />
       <End Role="ScheduleDetail" EntitySet="ScheduleDetails" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Schedule">
+    <Key>
+      <PropertyRef Name="scheduleID" />
+    </Key>
+    <Property Name="scheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="scheduleName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="scheduleNameDescription" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ScheduleDetails" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="Schedule" ToRole="ScheduleDetail" />
+  </EntityType>
   <EntityType Name="ScheduleDetail">
     <Key>
       <PropertyRef Name="scheduleDetailID" />

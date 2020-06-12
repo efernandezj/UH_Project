@@ -1,38 +1,39 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Component, OnInit, Output, EventEmitter, Input, TemplateRef } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { SwalClass} from '../../../classes/swal.class';
-import { Schedule} from '../models/schedule.model';
+import { SwalClass } from '../../../classes/swal.class';
+import { Schedule, ScheduleHour, Day } from '../models/schedule.model';
 import { ScheduleService } from '../services/schedule.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 
 @Component({
   selector: 'app-schedule-crud',
   templateUrl: './schedule-crud.component.html',
-  styles: [],
-  providers: [ScheduleService]
+  styleUrls: ['./schedule-crud.component.css'],
+  providers: [ScheduleService, BsModalService]
 })
 export class ScheduleCrudComponent implements OnInit {
+  @Input() public schedule: Schedule;
+  @Input() public crudMode: string;
   @Output() public saveCompleted: EventEmitter<any>;
   public isSaving: boolean;
   public frmSchedule: FormGroup;
+  public modalRef: BsModalRef;
+  public day: Day;
 
 
 
-  constructor(private swal: SwalClass, private srvSchedule: ScheduleService) {
+  constructor(private swal: SwalClass, private srvSchedule: ScheduleService, private modalService: BsModalService) {
     this.saveCompleted = new EventEmitter();
     this.isSaving = false;
 
     this.frmSchedule = new FormGroup({
-      scheduleName: new FormControl('',Validators.required),
-      scheduleDescrip: new FormControl('',Validators.required),
+      scheduleName: new FormControl('', Validators.required),
+      scheduleDescrip: new FormControl('', Validators.required),
       days: new FormArray([])
     });
-
-    this.createForm();
   }
 
   get days() {
@@ -40,40 +41,42 @@ export class ScheduleCrudComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+    console.log(this.schedule);
+    this.createForm(this.crudMode, this.schedule);
   }
 
-  private createForm(): void {
-    ['Monday', 'Tuesday', 'Wednesday ', 'Thursday', 'Friday', 'Saturday', 'Sunday'].forEach(day => {
+  private createForm(crudMode: string, schedule: Schedule): void {
+    let DAYS: any[];
+    if (crudMode === 'CREATE') {
+      DAYS = [{ dayName: 'Monday', startTime: '', endTime: '' },
+              { dayName: 'Tuesday', startTime: '', endTime: '' },
+              { dayName: 'Wednesday', startTime: '', endTime: '' },
+              { dayName: 'Thursday', startTime: '', endTime: '' },
+              { dayName: 'Friday', startTime: '', endTime: '' },
+              { dayName: 'Saturday', startTime: '', endTime: '' },
+              { dayName: 'Sunday', startTime: '', endTime: '' }
+      ];
+    } else {
+      DAYS = this.schedule.days;
+    }
+
+    DAYS.forEach(day => {
       this.days.push(
         new FormGroup({
-          dayName: new FormControl(day),
-          startTime: new FormControl(),
-          endTime: new FormControl(),
-          dayDescrip: new FormControl('DayOff'),
-          isWorkingday: new FormControl(false)
+          dayName: new FormControl(day.dayName),
+          startTime: new FormControl(day.startTime),
+          endTime: new FormControl(day.endTime),
+          dayDescrip: new FormControl(day.dayDescrip),
+          isWorkingday: new FormControl(day.isWorkingDay)
         })
       )
     })
   }
 
-  public changeDescription(idx: number): void {
-    if(this.days.at(idx).get('isWorkingday').value) {
-      this.days.at(idx).get('dayDescrip').setValue('This is a Business day.');
-      this.days.at(idx).get('startTime').setValue(new Date("January 31 1980 06:30"))
-      this.days.at(idx).get('endTime').setValue(new Date("January 31 1980 15:30"))
-    } else {
-      this.days.at(idx).get('dayDescrip').setValue('DayOff');
-      this.days.at(idx).get('startTime').setValue(null)
-      this.days.at(idx).get('endTime').setValue(null)
-      
-    }
-  }
-
   public cleanScheduleForm(): void {
     this.frmSchedule.get('scheduleName').setValue('');
     this.frmSchedule.get('scheduleDescrip').setValue('');
-    this.days.controls.forEach( day => {
+    this.days.controls.forEach(day => {
       day.get('startTime').setValue(null);
       day.get('endTime').setValue(null);
       day.get('dayDescrip').setValue('DayOff');
@@ -84,20 +87,20 @@ export class ScheduleCrudComponent implements OnInit {
 
   public formtSubmit(): void {
     this.isSaving = true;
-    
-    if(this.days.controls.filter( e => e.get('isWorkingday').value === true).length == 0) {
+
+    if (this.days.controls.filter(e => e.get('isWorkingday').value === true).length == 0) {
       this.swal.showAlert('Attention', 'You must check at least one day as working day.', 'error');
       this.isSaving = false;
       return;
     }
-    
+
     const data: Schedule = this.frmSchedule.value;
-        
+
     this.srvSchedule.postSchedule(data).subscribe((result: any) => {
-      if(result.IsCorrect) {
+      if (result.IsCorrect) {
         this.saveCompleted.emit(result.Data as any);
         console.log(result.Data);
-        this.swal.showAlert('Success',result.Message, 'success');
+        this.swal.showAlert('Success', result.Message, 'success');
       } else {
         this.swal.showAlert('Attention', result.Message, 'error');
       }
@@ -105,7 +108,16 @@ export class ScheduleCrudComponent implements OnInit {
     }, ((err: HttpErrorResponse) => {
       this.swal.showAlert('Attention', err.error.Message, 'error');
       this.isSaving = false;
-    }));    
+    }));
+  }
+
+  public openEditHour(idx: number, tempalte: TemplateRef<any>): void {
+    this.day = this.schedule.days[idx];
+    this.modalRef = this.modalService.show(tempalte, { class: 'modal-lg' });
+    const suscription = this.modalService.onHide.subscribe(() => {
+      this.day = null;
+      suscription.unsubscribe();
+    });
   }
 
 

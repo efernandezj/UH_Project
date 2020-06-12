@@ -14,13 +14,14 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
   private dtElement: DataTableDirective;
   private dtTable: DataTables.Api;
   public dtOptions: DataTables.Settings;
-  public isLoading: boolean;
   public schedules: Schedule[];
-  
+  public schedule: Schedule;
+  public crudMode: string;
 
   constructor(private srvSchedule: ScheduleService) {
-    this.isLoading = false;
     this.schedules = [];
+    this.schedule = null;
+    this.crudMode = ''
 
     this.dtOptions = {
       pageLength: 10,
@@ -29,7 +30,7 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       // info: false,
       ordering: false,
       responsive: true,
-      // columnDefs: [{ responsivePriority: 1, targets: 3 }] as any[],
+      columnDefs: [{ responsivePriority: 1, targets: 3 }] as any[],
       ajax: (dataTablesParameters: any, callback) => {
         callback({
           recordsTotal: this.schedules.length,
@@ -40,13 +41,17 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       columns: <any>[
         { id: 0, data: 'scheduleName' },
         { id: 1, data: 'scheduleDescrip' },
-        { id: 2, data: 'startTime' },
-        { id: 3, data: 'endTime' }/*,
         {
-          id: 4, data: null, sortable: false, className: 'text-center', render: (data: any, type: any, row: Schedule) => {
-            return `<button type="button" data-target="${row.key}" class="btn btn-link p-0"><i class="fas fa-pencil-alt"></i></button>`;
+          id: 2, data: null, render: (data: any, type: any, row: Schedule) => {
+            return row.isActive ? 'Active' : 'Disabled';
           }
-        }*/
+        },
+        {
+          id: 3, data: null, sortable: false, className: 'text-center', render: (data: any, type: any, row: Schedule) => {
+            return `<button type="button" data-target="${row.key}" data-type="u" class="btn btn-link p-0 ml-2 mr-2"><i class="fas fa-pencil-alt"></i></button>
+                    <button type="button" data-target="${row.key}" data-type="d" class="btn btn-link p-0 ml-2 mr-2"><i class="fas fa-trash-alt"></i></button>`;
+          }
+        }
       ]
     };
   }
@@ -57,9 +62,10 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     this.srvSchedule.getSchedule().subscribe((result: any) => {
       if (result.IsCorrect) {
         this.schedules = result.Schedules;
-        console.log(result.Schedules);
+        this.dtTable.ajax.reload();
       }
     });
+    console.log(this.schedule);
   }
 
   ngAfterViewInit() {
@@ -67,11 +73,9 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dtElement.dtInstance.then(tbl => {
         this.dtTable = tbl;
         this.dtTable.on('draw', () => this._setLinkEvents());
-        this.dtTable.ajax.reload();
-        console.log('In Condition');
+        // this.dtTable.ajax.reload();
       });
     }
-    console.log('afterView');
   }
 
   ngOnDestroy() {
@@ -89,13 +93,40 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   private _setLinkEvents(): void {
-    console.log('test');
     const arrLinks = $('#tblResult tbody').find('button');
     $.each(arrLinks, (key: number, btn: HTMLButtonElement) => {
       if ($(btn).attr('data-target')) {
         const key = Number($(btn).attr('data-target'));
-        console.log('btn');
 
+        if (!isNaN(key)) {
+          if ($(btn).attr('data-type') === 'u') {
+            // UPDATE CLICK EVENT
+            $(btn).off('click');
+            $(btn).on('click', () => {
+              $('#CRUD').slideUp('slow', () => {
+                this.schedule = this.schedules.find(e => e.key === key);
+                this.crudMode = 'UPDATE';
+                console.log(this.schedule);
+                $('#CRUD').slideDown('slow')
+              });
+            })
+          }
+
+          if ($(btn).attr('data-type') === 'd') {
+            // DELETE CLICK EVENT
+            $(btn).off('click');
+            $(btn).on('click', () => {
+              $('#CRUD').slideUp('slow', () => {
+                this.schedule = this.schedules.find(e => e.key === key);
+                this.crudMode = 'DELETE';
+                $('#CRUD').slideDown('slow')
+              });
+            })
+          }
+
+
+
+        }
       }
     });
   }

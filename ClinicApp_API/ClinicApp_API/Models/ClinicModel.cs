@@ -10,7 +10,7 @@ namespace ClinicApp_API.Models
         public int key { get; set; }
         public string scheduleName { get; set; }
         public string scheduleDescrip { get; set; }
-
+        public bool isActive { get; set; }
         public ICollection<Day> days { get; set; }
     }
 

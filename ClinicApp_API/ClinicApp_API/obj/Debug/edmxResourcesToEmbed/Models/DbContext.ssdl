@@ -5,7 +5,7 @@
       <PropertyRef Name="buildingID" />
     </Key>
     <Property Name="buildingID" Type="int" Nullable="false" />
-    <Property Name="buildingName" Type="varchar" MaxLength="100" />
+    <Property Name="buildingName" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="Clinical">
     <Key>
@@ -32,7 +32,7 @@
     <Property Name="scheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="scheduleName" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="scheduleNameDescription" Type="varchar" MaxLength="300" Nullable="false" />
-    <Property Name="isActive" Type="bit" />
+    <Property Name="isActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ScheduleDetail">
     <Key>

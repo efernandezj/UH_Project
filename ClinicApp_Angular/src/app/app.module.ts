@@ -7,9 +7,13 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+// CUSTOME
+import { CustomPipesModule } from 'src/app/pipes/custom-pipes.module';
+
 // NGX-BOOTSTRAP
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 // Angular material
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -33,7 +37,8 @@ import { SelectionBodyComponent }   from './pages/selection/selection-body/selec
 import { ScheduleComponent }        from './pages/schedule/schedule.component';
 import { ScheduleBodyComponent } from './pages/schedule/schedule-body/schedule-body.component';
 import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-crud.component';
-
+import { LoadingComponent } from './shared/loading/loading.component';
+import { ScheduleModalComponent } from './pages/schedule/schedule-modal/schedule-modal.component';
 
 
 
@@ -48,7 +53,9 @@ import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-c
     SelectionBodyComponent,
     ScheduleComponent,
     ScheduleBodyComponent,
-    ScheduleCrudComponent
+    ScheduleCrudComponent,
+    LoadingComponent,
+    ScheduleModalComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,9 @@ import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-c
     SweetAlert2Module.forRoot(),
     FormsModule, 
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule.forRoot(),
+    CustomPipesModule
   ],
   providers: [SwalClass],
   bootstrap: [AppComponent]

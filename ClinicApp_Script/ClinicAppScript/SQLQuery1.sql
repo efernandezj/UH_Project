@@ -25,7 +25,7 @@ CREATE TABLE dbo.Schedule (
 	scheduleID				INT NOT NULL IDENTITY(1,1),
 	scheduleName			VARCHAR(100) NOT NULL,
 	scheduleNameDescription VARCHAR(300) NOT NULL,
-	isActive				BIT,
+	isActive				BIT NOT NULL,
 
 	CONSTRAINT pk_Schedule PRIMARY KEY (scheduleID)
 );
@@ -48,7 +48,7 @@ CREATE TABLE dbo.Job (
 );
 CREATE TABLE dbo.Building (
 	buildingID		INT NOT NULL,
-	buildingName	VARCHAR(100),
+	buildingName	VARCHAR(100) NOT NULL,
 
 	CONSTRAINT pkBuilding PRIMARY KEY (buildingID)
 );

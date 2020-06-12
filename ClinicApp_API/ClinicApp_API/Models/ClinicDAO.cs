@@ -26,6 +26,7 @@ namespace ClinicApp_API.Models
                         key = schedule.scheduleID,
                         scheduleName = schedule.scheduleName,
                         scheduleDescrip = schedule.scheduleNameDescription,
+                        isActive = schedule.isActive,
                         days = (from day in schedule.ScheduleDetails 
                                 select new Day()
                                 {

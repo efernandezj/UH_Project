@@ -32,10 +32,10 @@
     <EntitySetMapping Name="Schedules">
       <EntityTypeMapping TypeName="ClinicAppModel.Schedule">
         <MappingFragment StoreEntitySet="Schedule">
-          <ScalarProperty Name="scheduleID" ColumnName="scheduleID" />
-          <ScalarProperty Name="scheduleName" ColumnName="scheduleName" />
-          <ScalarProperty Name="scheduleNameDescription" ColumnName="scheduleNameDescription" />
           <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="scheduleNameDescription" ColumnName="scheduleNameDescription" />
+          <ScalarProperty Name="scheduleName" ColumnName="scheduleName" />
+          <ScalarProperty Name="scheduleID" ColumnName="scheduleID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

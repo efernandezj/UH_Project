@@ -28,12 +28,11 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col" style="width: 5%"></th>
-            <th scope="col" style="width: 10%">Day</th>
-            <th scope="col" style="width: 15%">Start Time</th>
-            <th scope="col" style="width: 15%">End Time</th>
-            <th scope="col" style="width: 10%">Working Day</th>
-            <th scope="col">Day Schedule Description</th>
+            <th></th>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th style="width: 5px;">&nbsp;</th>
           </tr>
         </thead>
 
@@ -41,19 +40,11 @@
           <tr *ngFor="let day of this.days.controls; let i = index" [formGroupName]="i">
             <td></td>
             <td>{{ day.get('dayName').value }}</td>
-            <td>
-              <timepicker formControlName="startTime" [showSpinners]="false"></timepicker>
+            <td>{{ day.get('startTime')}}</td>
+            <td>{{ day.get('endTime')}}</td>
+            <td class="align-middle">
+              <a [routerLink]="" (click)="openEditHour(i, tblHours)"> <i class="fas fa-pencil-alt"></i></a>
             </td>
-            <td>
-              <timepicker formControlName="endTime" [showSpinners]="false"></timepicker>
-            </td>
-            <td>
-              <div style="margin-left: 42px;">
-                <mat-checkbox color="primary" formControlName="isWorkingday" #isWorkingday
-                  (change)="changeDescription(i)"></mat-checkbox>
-              </div>
-            </td>
-            <td>{{ day.get('dayDescrip').value }}</td>
           </tr>
         </tbody>
       </table>
@@ -77,3 +68,7 @@
   </div>
   <!-- END OF Schedules CONFIGURATION -->
 </form>
+
+<ng-template #tblHours>
+  <app-schedule-modal [day]="day" [modalRef]="modalRef"></app-schedule-modal>
+</ng-template>

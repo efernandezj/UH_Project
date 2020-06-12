@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class ScheduleComponent implements OnInit {
+  public loading: boolean;
 
-  constructor() { }
+  constructor() {
+    this.loading = true;
+   }
 
   ngOnInit() {
+    this.loading = false;
   }
 
 }

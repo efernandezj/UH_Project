@@ -31,10 +31,10 @@ namespace ClinicApp_API.Models
                                 select new Day()
                                 {
                                     dayName = day.weekdayName,
-                                    dayDescrip = (day.startTime.HasValue)? "This is a business day" : "DayOff",
-                                    startTime = day.startTime,
-                                    endTime = day.endTime,
-                                    isWorkingDay = day.startTime.HasValue
+                                    dayDescrip = !string.IsNullOrEmpty(day.startTime)? "This is a business day" : "DayOff",
+                                    startTime = !string.IsNullOrEmpty( day.startTime)? day.startTime : "",
+                                    endTime = !string.IsNullOrEmpty(day.endTime) ? day.endTime : "",
+                                    isWorkingDay = !string.IsNullOrEmpty(day.startTime)
                                 }).ToList()
                     }).ToList();
         }

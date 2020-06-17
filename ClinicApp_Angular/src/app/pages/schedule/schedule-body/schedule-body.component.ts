@@ -48,8 +48,7 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         {
           id: 3, data: null, sortable: false, className: 'text-center', render: (data: any, type: any, row: Schedule) => {
-            return `<button type="button" data-target="${row.key}" data-type="u" class="btn btn-link p-0 ml-2 mr-2"><i class="fas fa-pencil-alt"></i></button>
-                    <button type="button" data-target="${row.key}" data-type="d" class="btn btn-link p-0 ml-2 mr-2"><i class="fas fa-trash-alt"></i></button>`;
+            return `<button type="button" data-target="${row.key}" class="btn btn-link p-0 ml-2 mr-2"><i class="fas fa-pencil-alt"></i></button>`;
           }
         }
       ]
@@ -65,7 +64,6 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dtTable.ajax.reload();
       }
     });
-    console.log(this.schedule);
   }
 
   ngAfterViewInit() {
@@ -99,33 +97,17 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         const key = Number($(btn).attr('data-target'));
 
         if (!isNaN(key)) {
-          if ($(btn).attr('data-type') === 'u') {
+          // if ($(btn).attr('data-type') === 'u') {
             // UPDATE CLICK EVENT
             $(btn).off('click');
             $(btn).on('click', () => {
               $('#CRUD').slideUp('slow', () => {
                 this.schedule = this.schedules.find(e => e.key === key);
                 this.crudMode = 'UPDATE';
-                console.log(this.schedule);
                 $('#CRUD').slideDown('slow')
               });
             })
-          }
-
-          if ($(btn).attr('data-type') === 'd') {
-            // DELETE CLICK EVENT
-            $(btn).off('click');
-            $(btn).on('click', () => {
-              $('#CRUD').slideUp('slow', () => {
-                this.schedule = this.schedules.find(e => e.key === key);
-                this.crudMode = 'DELETE';
-                $('#CRUD').slideDown('slow')
-              });
-            })
-          }
-
-
-
+          // }
         }
       }
     });

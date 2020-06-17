@@ -17,8 +17,8 @@ namespace ClinicApp_API.Models
         public int scheduleDetailID { get; set; }
         public int scheduleID { get; set; }
         public string weekdayName { get; set; }
-        public Nullable<System.DateTime> startTime { get; set; }
-        public Nullable<System.DateTime> endTime { get; set; }
+        public string startTime { get; set; }
+        public string endTime { get; set; }
         public int dayNumber { get; set; }
     
         public virtual Schedule Schedule { get; set; }

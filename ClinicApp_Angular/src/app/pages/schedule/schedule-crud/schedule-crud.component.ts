@@ -41,23 +41,24 @@ export class ScheduleCrudComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.schedule);
     this.createForm(this.crudMode, this.schedule);
   }
 
   private createForm(crudMode: string, schedule: Schedule): void {
     let DAYS: any[];
     if (crudMode === 'CREATE') {
-      DAYS = [{ dayName: 'Monday', startTime: '', endTime: '' },
+      DAYS = [{ dayName: 'Sunday', startTime: '', endTime: '' },
+              { dayName: 'Monday', startTime: '', endTime: '' },
               { dayName: 'Tuesday', startTime: '', endTime: '' },
               { dayName: 'Wednesday', startTime: '', endTime: '' },
               { dayName: 'Thursday', startTime: '', endTime: '' },
               { dayName: 'Friday', startTime: '', endTime: '' },
-              { dayName: 'Saturday', startTime: '', endTime: '' },
-              { dayName: 'Sunday', startTime: '', endTime: '' }
-      ];
+              { dayName: 'Saturday', startTime: '', endTime: '' }
+             ];
     } else {
       DAYS = this.schedule.days;
+      this.frmSchedule.get('scheduleName').setValue(this.schedule.scheduleName);
+      this.frmSchedule.get('scheduleDescrip').setValue(this.schedule.scheduleDescrip);
     }
 
     DAYS.forEach(day => {
@@ -99,7 +100,6 @@ export class ScheduleCrudComponent implements OnInit {
     this.srvSchedule.postSchedule(data).subscribe((result: any) => {
       if (result.IsCorrect) {
         this.saveCompleted.emit(result.Data as any);
-        console.log(result.Data);
         this.swal.showAlert('Success', result.Message, 'success');
       } else {
         this.swal.showAlert('Attention', result.Message, 'error');

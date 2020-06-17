@@ -62,12 +62,13 @@ export class ScheduleModalComponent implements OnInit {
 
   private _getHours(data: string): any {
     if (!data || (data && data === '')) {
-      return { hours: '12', minute: '00', period: 'AM' };
+      return { hours: '12', minute: '0', period: 'AM' };
     }
+    
     const baseArray = data.split(':');
     return {
       hours: baseArray[0].trim(),
-      minute: baseArray[1].trim().split(' ')[0].trim(),
+      minute: Number( baseArray[1].trim().split(' ')[0].trim()),
       period: baseArray[1].trim().split(' ')[1].trim()
     };
   }

@@ -46,8 +46,8 @@
           <Property Name="scheduleDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="scheduleID" Type="int" Nullable="false" />
           <Property Name="weekdayName" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="startTime" Type="datetime" />
-          <Property Name="endTime" Type="datetime" />
+          <Property Name="startTime" Type="nvarchar" MaxLength="80" />
+          <Property Name="endTime" Type="nvarchar" MaxLength="80" />
           <Property Name="dayNumber" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="fk_ScheduleDetail_Schedule">
@@ -198,8 +198,8 @@
           <Property Name="scheduleDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="scheduleID" Type="Int32" Nullable="false" />
           <Property Name="weekdayName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="startTime" Type="DateTime" Precision="3" />
-          <Property Name="endTime" Type="DateTime" Precision="3" />
+          <Property Name="startTime" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="endTime" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="dayNumber" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Schedule" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="ScheduleDetail" ToRole="Schedule" />
         </EntityType>

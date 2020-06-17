@@ -19,7 +19,7 @@
         <div class="col-sm-12 col-md-6">
           <div class="form-group">
             <label for="scheduleDespcription">Schedule Description</label>
-            <textarea class="form-control" id="scheduleDespcription" rows="3"
+            <textarea class="form-control" id="scheduleDespcription" rows="1"
               placeholder="Type a Schedule Description. (Max: 300 chars)" formControlName="scheduleDescrip">
             </textarea>
           </div>
@@ -40,8 +40,8 @@
           <tr *ngFor="let day of this.days.controls; let i = index" [formGroupName]="i">
             <td></td>
             <td>{{ day.get('dayName').value }}</td>
-            <td>{{ day.get('startTime')}}</td>
-            <td>{{ day.get('endTime')}}</td>
+            <td>{{ day.get('startTime').value}}</td>
+            <td>{{ day.get('endTime').value}}</td>
             <td class="align-middle">
               <a [routerLink]="" (click)="openEditHour(i, tblHours)"> <i class="fas fa-pencil-alt"></i></a>
             </td>

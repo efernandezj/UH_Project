@@ -23,7 +23,7 @@
                             <select class="form-control custom-select" formControlName="minute">
                                 <option *ngFor="let row of counter(60); let i = index"
                                     value="{{ i }}">
-                                    {{i }
+                                    {{i | paddingLeft:2}}
                                 </option>
                             </select>
                         </div>
@@ -44,7 +44,7 @@
                             <select class="form-control custom-select" formControlName="hours">
                                 <option *ngFor="let row of counter(12); let i = index"
                                     value="{{ i + 1  }}">
-                                    {{i + 1 }
+                                    {{i + 1 }}
                                 </option>
                             </select>
                         </div>
@@ -52,7 +52,7 @@
                             <select class="form-control custom-select" formControlName="minute">
                                 <option *ngFor="let row of counter(60); let i = index"
                                     value="{{ i  }}">
-                                    {{i | paddingLeft:'2'}}
+                                    {{i | paddingLeft:2}}
                                 </option>
                             </select>
                         </div>

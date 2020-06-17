@@ -1,14 +1,5 @@
-<<<<<<< HEAD
-=======
+
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-timepicker tr { background-color: transparent !important; }
-timepicker th, timepicker td {
-    padding: 0 !important;
-    vertical-align: middle !important;
-    border: none !important;
-  }
->>>>>>> 5473e88a1efa2c375727d4a8f2e106a880c85684
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

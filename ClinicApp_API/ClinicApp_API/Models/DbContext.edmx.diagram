@@ -11,7 +11,7 @@
         <AssociationConnector Association="ClinicAppModel.fkClinical_Building" ManuallyRouted="false" />
         <AssociationConnector Association="ClinicAppModel.fkClinical_Job" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ClinicAppModel.Schedule" Width="1.5" PointX="0.75" PointY="5.125" />
-        <EntityTypeShape EntityType="ClinicAppModel.ScheduleDetail" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="ClinicAppModel.ScheduleDetail" Width="1.5" PointX="3" PointY="4.875" />
         <AssociationConnector Association="ClinicAppModel.fk_ScheduleDetail_Schedule" />
       </Diagram>
     </edmx:Diagrams>

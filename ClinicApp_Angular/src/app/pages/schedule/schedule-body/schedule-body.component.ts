@@ -35,6 +35,7 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
     this.frmSchedule = new FormGroup({
       scheduleName: new FormControl('', Validators.required),
       scheduleDescrip: new FormControl('', Validators.required),
+      isActive: new FormControl(true),
       days: new FormArray([])
     });
 
@@ -103,7 +104,9 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
             $('#divBody').slideUp('slow', () => {
               this.schedule = this.schedules.find(e => e.key === key);
               this.createForm('UPDATE');
-              $('#divBody').slideDown('slow')
+              setTimeout(() => {
+                $('#divBody').slideDown('slow');
+              }, 200);
             });
           })
         }
@@ -132,6 +135,7 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
         DAYS = this.schedule.days;
         this.frmSchedule.get('scheduleName').setValue(this.schedule.scheduleName);
         this.frmSchedule.get('scheduleDescrip').setValue(this.schedule.scheduleDescrip);
+        this.frmSchedule.get('isActive').setValue(this.schedule.isActive);
       }
 
       DAYS.forEach(day => {

@@ -23,18 +23,19 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 // Classes
 import { SwalClass } from './classes/swal.class';
 
 
 // Components
-import { HomeComponent }            from './pages/home/home.component';
-import { AssestmentComponent }      from './pages/assestment/assestment.component';
-import { LoginComponent }           from './pages/login/login.component';
-import { SelectionComponent }       from './pages/selection/selection.component';
-import { SelectionBodyComponent }   from './pages/selection/selection-body/selection-body.component';
-import { ScheduleComponent }        from './pages/schedule/schedule.component';
+import { HomeComponent } from './pages/home/home.component';
+import { AssestmentComponent } from './pages/assestment/assestment.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SelectionComponent } from './pages/selection/selection.component';
+import { SelectionBodyComponent } from './pages/selection/selection-body/selection-body.component';
+import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ScheduleBodyComponent } from './pages/schedule/schedule-body/schedule-body.component';
 import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-crud.component';
 import { LoadingComponent } from './shared/loading/loading.component';
@@ -67,11 +68,12 @@ import { ScheduleModalComponent } from './pages/schedule/schedule-modal/schedule
     MatListModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
     DataTablesModule,
     TimepickerModule.forRoot(),
     AlertModule.forRoot(),
     SweetAlert2Module.forRoot(),
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     ModalModule.forRoot(),

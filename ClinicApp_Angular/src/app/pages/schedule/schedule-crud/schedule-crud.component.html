@@ -1,72 +1,74 @@
 <form [formGroup]="frmSchedule" (ngSubmit)="formtSubmit()">
-  <!-- START OF CONFIGURATION -->
-  <div class="card mt-2 mb-4">
-    <div class="card-header">
-      <i class="fas fa-clock"></i>
-      Schedule Details
-    </div>
-
-    <div class="card-body">
-
-      <div class="row mt-2">
-        <div class="col-sm-12 col-md-6">
-          <div class="form-group">
-            <label for="scheduleName">Schedule Name</label>
-            <input type="text" class="form-control" id="scheduleName" placeholder="Type a Schedule Name"
-              formControlName="scheduleName">
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-          <div class="form-group">
-            <label for="scheduleDespcription">Schedule Description</label>
-            <textarea class="form-control" id="scheduleDespcription" rows="1"
-              placeholder="Type a Schedule Description. (Max: 300 chars)" formControlName="scheduleDescrip">
-            </textarea>
-          </div>
-        </div>
+  <div id="divBody" style="display: none;">
+    <!-- START OF CONFIGURATION -->
+    <div class="card mt-2 mb-4">
+      <div class="card-header">
+        <i class="fas fa-clock"></i>
+        Schedule Details
       </div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Day</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th style="width: 5px;">&nbsp;</th>
-          </tr>
-        </thead>
 
-        <tbody formArrayName="days">
-          <tr *ngFor="let day of this.days.controls; let i = index" [formGroupName]="i">
-            <td></td>
-            <td>{{ day.get('dayName').value }}</td>
-            <td>{{ day.get('startTime').value}}</td>
-            <td>{{ day.get('endTime').value}}</td>
-            <td class="align-middle">
-              <a [routerLink]="" (click)="openEditHour(i, tblHours)"> <i class="fas fa-pencil-alt"></i></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="card-body">
+
+        <div class="row mt-2">
+          <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+              <label for="scheduleName">Schedule Name</label>
+              <input type="text" class="form-control" id="scheduleName" placeholder="Type a Schedule Name"
+                formControlName="scheduleName">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+              <label for="scheduleDespcription">Schedule Description</label>
+              <textarea class="form-control" id="scheduleDespcription" rows="1"
+                placeholder="Type a Schedule Description. (Max: 300 chars)" formControlName="scheduleDescrip">
+            </textarea>
+            </div>
+          </div>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Day</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th style="width: 5px;">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody formArrayName="days">
+            <tr *ngFor="let day of this.days.controls; let i = index" [formGroupName]="i">
+              <td></td>
+              <td>{{ day.get('dayName').value }}</td>
+              <td>{{ day.get('startTime').value}}</td>
+              <td>{{ day.get('endTime').value}}</td>
+              <td class="align-middle">
+                <a [routerLink]="" (click)="openEditHour(i, tblHours)"> <i class="fas fa-pencil-alt"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div class="card-footer">
+        <button class="btn btn-primary" type="submit" [disabled]="!frmSchedule.valid">
+          <i *ngIf="!isSaving" class="fa fa-save"></i>
+          <i *ngIf="isSaving" class="fas fa-sync fa-spin"></i>
+          Save
+        </button>
+        <button type="button" class="btn btn-danger ml-2" (click)="closeForm()">
+          <i class="fa fa-times"></i>
+          Cancel
+        </button>
+        <button type="button" class="btn btn-link float-right">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
     </div>
-
-
-    <div class="card-footer">
-      <button class="btn btn-primary" type="submit" [disabled]="!frmSchedule.valid">
-        <i *ngIf="!isSaving" class="fa fa-save"></i>
-        <i *ngIf="isSaving" class="fas fa-sync fa-spin"></i>
-        Save
-      </button>
-      <button type="button" class="btn btn-danger ml-2" (click)="cleanScheduleForm()">
-        <i class="fa fa-times"></i>
-        Cancel
-      </button>
-      <button type="button" class="btn btn-link float-right">
-        <i class="fa fa-trash"></i>
-      </button>
-    </div>
+    <!-- END OF Schedules CONFIGURATION -->
   </div>
-  <!-- END OF Schedules CONFIGURATION -->
 </form>
 
 <ng-template #tblHours>

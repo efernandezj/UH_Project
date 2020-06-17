@@ -1,7 +1,11 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { ScheduleService } from '../services/schedule.service';
-import { Schedule } from '../models/schedule.model';
+import { Schedule, Day } from '../models/schedule.model';
 import { DataTableDirective } from 'angular-datatables';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { SwalClass } from '../../../classes/swal.class';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-schedule-body',
@@ -10,19 +14,29 @@ import { DataTableDirective } from 'angular-datatables';
   providers: [ScheduleService]
 })
 export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
-  @Input()   public schedules: Schedule[];
+  @Input() public schedules: Schedule[];
+  @Output() public saveCompleted: EventEmitter<any>;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private dtTable: DataTables.Api;
   public dtOptions: DataTables.Settings;
-  // public schedules: Schedule[];
   public schedule: Schedule;
-  public crudMode: string;
+  public isSaving: boolean;
+  public frmSchedule: FormGroup;
+  public modalRef: BsModalRef;
+  public day: Day;
 
-  constructor(private srvSchedule: ScheduleService) {
+  constructor(private swal: SwalClass, private srvSchedule: ScheduleService, private modalService: BsModalService) {
     this.schedules = [];
     this.schedule = null;
-    this.crudMode = ''
+    this.saveCompleted = new EventEmitter();
+    this.isSaving = false;
+
+    this.frmSchedule = new FormGroup({
+      scheduleName: new FormControl('', Validators.required),
+      scheduleDescrip: new FormControl('', Validators.required),
+      days: new FormArray([])
+    });
 
     this.dtOptions = {
       pageLength: 10,
@@ -56,6 +70,10 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
     };
   }
 
+  get days() {
+    return this.frmSchedule.get('days') as FormArray;
+  }
+
   ngAfterViewInit() {
     if (this.dtElement) {
       this.dtElement.dtInstance.then(tbl => {
@@ -72,14 +90,6 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  public reloadSchedules(schedules: Schedule[]) {
-    this.schedules = schedules;
-  }
-
-
-
-
-
   private _setLinkEvents(): void {
     const arrLinks = $('#tblResult tbody').find('button');
     $.each(arrLinks, (key: number, btn: HTMLButtonElement) => {
@@ -87,19 +97,109 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
         const key = Number($(btn).attr('data-target'));
 
         if (!isNaN(key)) {
-          // if ($(btn).attr('data-type') === 'u') {
-            // UPDATE CLICK EVENT
-            $(btn).off('click');
-            $(btn).on('click', () => {
-              $('#CRUD').slideUp('slow', () => {
-                this.schedule = this.schedules.find(e => e.key === key);
-                this.crudMode = 'UPDATE';
-                $('#CRUD').slideDown('slow')
-              });
-            })
-          // }
+          // UPDATE CLICK EVENT
+          $(btn).off('click');
+          $(btn).on('click', () => {
+            $('#divBody').slideUp('slow', () => {
+              this.schedule = this.schedules.find(e => e.key === key);
+              this.createForm('UPDATE');
+              $('#divBody').slideDown('slow')
+            });
+          })
         }
       }
+    });
+  }
+
+
+
+  private createForm(crudMode: string): void {
+    setTimeout(() => {
+
+
+      this.cleanScheduleForm();
+      let DAYS: any[];
+      if (crudMode === 'CREATE') {
+        DAYS = [{ dayName: 'Sunday', startTime: '', endTime: '' },
+        { dayName: 'Monday', startTime: '', endTime: '' },
+        { dayName: 'Tuesday', startTime: '', endTime: '' },
+        { dayName: 'Wednesday', startTime: '', endTime: '' },
+        { dayName: 'Thursday', startTime: '', endTime: '' },
+        { dayName: 'Friday', startTime: '', endTime: '' },
+        { dayName: 'Saturday', startTime: '', endTime: '' }
+        ];
+      } else {
+        DAYS = this.schedule.days;
+        this.frmSchedule.get('scheduleName').setValue(this.schedule.scheduleName);
+        this.frmSchedule.get('scheduleDescrip').setValue(this.schedule.scheduleDescrip);
+      }
+
+      DAYS.forEach(day => {
+        this.days.push(
+          new FormGroup({
+            dayName: new FormControl(day.dayName),
+            startTime: new FormControl(day.startTime),
+            endTime: new FormControl(day.endTime),
+            dayDescrip: new FormControl(day.dayDescrip),
+            isWorkingday: new FormControl(day.isWorkingDay)
+          })
+        )
+      })
+    }, 200);
+  }
+
+  public closeForm(): void {
+    setTimeout(() => {
+      $('#divBody').slideUp('slow', () => {
+        this.cleanScheduleForm();
+      });
+    }, 200);
+  }
+
+  public cleanScheduleForm(): void {
+    this.frmSchedule.get('scheduleName').setValue('');
+    this.frmSchedule.get('scheduleDescrip').setValue('');
+    (this.frmSchedule.get('days') as FormArray).clear();
+    this.days.controls.forEach(day => {
+      day.get('startTime').setValue(null);
+      day.get('endTime').setValue(null);
+      day.get('dayDescrip').setValue('DayOff');
+      day.get('isWorkingday').setValue(false);
+
+    })
+  }
+
+  public formtSubmit(): void {
+    this.isSaving = true;
+
+    if (this.days.controls.filter(e => e.get('isWorkingday').value === true).length == 0) {
+      this.swal.showAlert('Attention', 'You must check at least one day as working day.', 'error');
+      this.isSaving = false;
+      return;
+    }
+
+    const data: Schedule = this.frmSchedule.value;
+
+    this.srvSchedule.postSchedule(data).subscribe((result: any) => {
+      if (result.IsCorrect) {
+        this.saveCompleted.emit(result.Data as any);
+        this.swal.showAlert('Success', result.Message, 'success');
+      } else {
+        this.swal.showAlert('Attention', result.Message, 'error');
+      }
+      this.isSaving = false;
+    }, ((err: HttpErrorResponse) => {
+      this.swal.showAlert('Attention', err.error.Message, 'error');
+      this.isSaving = false;
+    }));
+  }
+
+  public openEditHour(idx: number, tempalte: TemplateRef<any>): void {
+    this.day = this.schedule.days[idx];
+    this.modalRef = this.modalService.show(tempalte, { class: 'modal-lg' });
+    const suscription = this.modalService.onHide.subscribe(() => {
+      this.day = null;
+      suscription.unsubscribe();
     });
   }
 

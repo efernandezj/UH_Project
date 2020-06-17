@@ -74,6 +74,12 @@ export class ScheduleCrudComponent implements OnInit {
     })
   }
 
+  public closeForm(): void {
+    $('#divBody').slideUp('slow', () => {
+      this.cleanScheduleForm();
+    });
+  }
+
   public cleanScheduleForm(): void {
     this.frmSchedule.get('scheduleName').setValue('');
     this.frmSchedule.get('scheduleDescrip').setValue('');

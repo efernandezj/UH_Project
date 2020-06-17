@@ -37,10 +37,9 @@ import { SelectionComponent } from './pages/selection/selection.component';
 import { SelectionBodyComponent } from './pages/selection/selection-body/selection-body.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ScheduleBodyComponent } from './pages/schedule/schedule-body/schedule-body.component';
-import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-crud.component';
+// import { ScheduleCrudComponent } from './pages/schedule/schedule-crud/schedule-crud.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { ScheduleModalComponent } from './pages/schedule/schedule-modal/schedule-modal.component';
-
 
 
 
@@ -54,7 +53,7 @@ import { ScheduleModalComponent } from './pages/schedule/schedule-modal/schedule
     SelectionBodyComponent,
     ScheduleComponent,
     ScheduleBodyComponent,
-    ScheduleCrudComponent,
+    // ScheduleCrudComponent,
     LoadingComponent,
     ScheduleModalComponent
   ],

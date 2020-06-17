@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, Input } from '@angular/core';
 import { ScheduleService } from '../services/schedule.service';
 import { Schedule } from '../models/schedule.model';
 import { DataTableDirective } from 'angular-datatables';
@@ -9,12 +9,13 @@ import { DataTableDirective } from 'angular-datatables';
   styleUrls: ['./schedule-body.component.css'],
   providers: [ScheduleService]
 })
-export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
+  @Input()   public schedules: Schedule[];
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private dtTable: DataTables.Api;
   public dtOptions: DataTables.Settings;
-  public schedules: Schedule[];
+  // public schedules: Schedule[];
   public schedule: Schedule;
   public crudMode: string;
 
@@ -55,23 +56,12 @@ export class ScheduleBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-
-
-  ngOnInit() {
-    this.srvSchedule.getSchedule().subscribe((result: any) => {
-      if (result.IsCorrect) {
-        this.schedules = result.Schedules;
-        this.dtTable.ajax.reload();
-      }
-    });
-  }
-
   ngAfterViewInit() {
     if (this.dtElement) {
       this.dtElement.dtInstance.then(tbl => {
         this.dtTable = tbl;
         this.dtTable.on('draw', () => this._setLinkEvents());
-        // this.dtTable.ajax.reload();
+        this.dtTable.ajax.reload();
       });
     }
   }

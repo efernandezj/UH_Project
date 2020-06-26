@@ -36,6 +36,7 @@ CREATE TABLE dbo.ScheduleDetail (
 	startTime				NVARCHAR(80) NULL,
 	endTime					NVARCHAR(80) NULL,
 	dayNumber				INT NOT NULL,
+	isWorkingDay			BIT NOT NULL,
 
 	CONSTRAINT pk_ScheduleDetail PRIMARY KEY (scheduleDetailID),
 	CONSTRAINT fk_ScheduleDetail_Schedule FOREIGN KEY (scheduleID) REFERENCES dbo.Schedule (scheduleID)
@@ -70,10 +71,10 @@ CREATE TABLE dbo.Clinical (
 /* SET TESTING VALUES */
 INSERT INTO dbo.Schedule (scheduleName, scheduleNameDescription, isActive) VALUES('Daytime','Daytime production schedule',1);
 
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Sunday',		NULL,		NULL,		1);
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Monday',		'6:00 AM',	'3:30 PM',	2);
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Tuesday',		'6:00 AM',	'3:30 PM',	3);
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Wednesday',	'6:00 AM',	'3:30 PM',	4);
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Thursday',	'6:00 AM',	'3:30 PM',	5);
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Friday',		'6:00 AM',	'3:30 PM',	6);
-INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber) VALUES(1,'Saturday',	NULL,		NULL,		7);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Sunday',		NULL,		NULL,		1, 0);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Monday',		'6:00 AM',	'3:30 PM',	2, 1);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Tuesday',		'6:00 AM',	'3:30 PM',	3, 1);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Wednesday',		'6:00 AM',	'3:30 PM',	4, 1);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Thursday',		'6:00 AM',	'3:30 PM',	5, 1);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Friday',		'6:00 AM',	'3:30 PM',	6, 1);
+INSERT INTO dbo.ScheduleDetail (scheduleID, weekdayName, startTime, endTime ,dayNumber, isWorkingDay) VALUES(1,'Saturday',		NULL,		NULL,		7, 0);

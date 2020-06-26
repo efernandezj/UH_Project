@@ -42,6 +42,7 @@
     <EntitySetMapping Name="ScheduleDetails">
       <EntityTypeMapping TypeName="ClinicAppModel.ScheduleDetail">
         <MappingFragment StoreEntitySet="ScheduleDetail">
+          <ScalarProperty Name="isWorkingDay" ColumnName="isWorkingDay" />
           <ScalarProperty Name="dayNumber" ColumnName="dayNumber" />
           <ScalarProperty Name="endTime" ColumnName="endTime" />
           <ScalarProperty Name="startTime" ColumnName="startTime" />

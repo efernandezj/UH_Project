@@ -11,12 +11,3 @@ export class Day {
     startTime: string;
     endTime: string;
 }
-export class ScheduleHour {
-    // public key: number;
-    public weekDayName: string;
-    // public weekDayNumber: number;
-    public startTime: string;
-    public endTime: string;
-
-    constructor() { }
-}

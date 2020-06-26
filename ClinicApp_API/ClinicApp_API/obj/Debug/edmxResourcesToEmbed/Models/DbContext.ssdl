@@ -44,6 +44,7 @@
     <Property Name="startTime" Type="nvarchar" MaxLength="80" />
     <Property Name="endTime" Type="nvarchar" MaxLength="80" />
     <Property Name="dayNumber" Type="int" Nullable="false" />
+    <Property Name="isWorkingDay" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="fk_ScheduleDetail_Schedule">
     <End Role="Schedule" Type="Self.Schedule" Multiplicity="1" />

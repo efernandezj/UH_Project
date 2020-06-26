@@ -83,7 +83,7 @@
   </form>
   
   <ng-template #tblHours>
-    <app-schedule-modal [day]="day" [modalRef]="modalRef"></app-schedule-modal>
+    <app-schedule-modal [day]="day" [modalRef]="modalRef" (dataCompleted)='updateDay($event)'></app-schedule-modal>
   </ng-template>
 
 

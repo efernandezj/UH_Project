@@ -111,6 +111,7 @@ namespace ClinicApp_API.Controllers
                     weekdayName = day.dayName,
                     startTime = day.startTime,
                     endTime = day.endTime,
+                    isWorkingDay = string.IsNullOrEmpty(day.startTime.ToString()),
                     dayNumber = dayNumber
                 });
                 dayNumber = +1;

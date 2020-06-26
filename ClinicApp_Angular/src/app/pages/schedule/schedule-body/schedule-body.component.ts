@@ -123,7 +123,8 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
       this.cleanScheduleForm();
       let DAYS: any[];
       if (crudMode === 'CREATE') {
-        DAYS = [{ dayName: 'Sunday', startTime: '', endTime: '' },
+        DAYS = [
+        { dayName: 'Sunday', startTime: '', endTime: '' },
         { dayName: 'Monday', startTime: '', endTime: '' },
         { dayName: 'Tuesday', startTime: '', endTime: '' },
         { dayName: 'Wednesday', startTime: '', endTime: '' },
@@ -143,9 +144,7 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
           new FormGroup({
             dayName: new FormControl(day.dayName),
             startTime: new FormControl(day.startTime),
-            endTime: new FormControl(day.endTime),
-            dayDescrip: new FormControl(day.dayDescrip),
-            isWorkingday: new FormControl(day.isWorkingDay)
+            endTime: new FormControl(day.endTime)
           })
         )
       })
@@ -207,4 +206,10 @@ export class ScheduleBodyComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-}
+  public updateDay(dayData: Day): void {
+    const DAY = this.days.controls.find(e => e.get('dayName').value == dayData.dayName);
+    (DAY as FormGroup).get('startTime').setValue(dayData.startTime);
+    (DAY as FormGroup).get('endTime').setValue(dayData.endTime);
+  }
+
+};

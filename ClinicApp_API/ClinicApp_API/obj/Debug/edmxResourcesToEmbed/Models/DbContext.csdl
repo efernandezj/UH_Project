@@ -92,6 +92,7 @@
     <Property Name="startTime" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
     <Property Name="endTime" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
     <Property Name="dayNumber" Type="Int32" Nullable="false" />
+    <Property Name="isWorkingDay" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Schedule" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="ScheduleDetail" ToRole="Schedule" />
   </EntityType>
   <Association Name="fk_ScheduleDetail_Schedule">

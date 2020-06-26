@@ -19,7 +19,6 @@ namespace ClinicApp_API.Models
         public string dayName { get; set; }
         public string startTime { get; set; }
         public string endTime { get; set; }
-        public string dayDescrip { get; set; }
         public bool isWorkingDay { get; set; }
     }
 }

@@ -31,7 +31,6 @@ namespace ClinicApp_API.Models
                                 select new Day()
                                 {
                                     dayName = day.weekdayName,
-                                    dayDescrip = !string.IsNullOrEmpty(day.startTime)? "This is a business day" : "DayOff",
                                     startTime = !string.IsNullOrEmpty( day.startTime)? day.startTime : "",
                                     endTime = !string.IsNullOrEmpty(day.endTime) ? day.endTime : "",
                                     isWorkingDay = !string.IsNullOrEmpty(day.startTime)

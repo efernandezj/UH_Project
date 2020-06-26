@@ -49,6 +49,7 @@
           <Property Name="startTime" Type="nvarchar" MaxLength="80" />
           <Property Name="endTime" Type="nvarchar" MaxLength="80" />
           <Property Name="dayNumber" Type="int" Nullable="false" />
+          <Property Name="isWorkingDay" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="fk_ScheduleDetail_Schedule">
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="1" />
@@ -201,6 +202,7 @@
           <Property Name="startTime" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="endTime" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="dayNumber" Type="Int32" Nullable="false" />
+          <Property Name="isWorkingDay" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Schedule" Relationship="ClinicAppModel.fk_ScheduleDetail_Schedule" FromRole="ScheduleDetail" ToRole="Schedule" />
         </EntityType>
         <Association Name="fk_ScheduleDetail_Schedule">
@@ -262,6 +264,7 @@
           <EntitySetMapping Name="ScheduleDetails">
             <EntityTypeMapping TypeName="ClinicAppModel.ScheduleDetail">
               <MappingFragment StoreEntitySet="ScheduleDetail">
+                <ScalarProperty Name="isWorkingDay" ColumnName="isWorkingDay" />
                 <ScalarProperty Name="dayNumber" ColumnName="dayNumber" />
                 <ScalarProperty Name="endTime" ColumnName="endTime" />
                 <ScalarProperty Name="startTime" ColumnName="startTime" />

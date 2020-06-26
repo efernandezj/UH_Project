@@ -20,6 +20,7 @@ namespace ClinicApp_API.Models
         public string startTime { get; set; }
         public string endTime { get; set; }
         public int dayNumber { get; set; }
+        public bool isWorkingDay { get; set; }
     
         public virtual Schedule Schedule { get; set; }
     }
